@@ -1,0 +1,110 @@
+html,body
+{
+    height:100%;
+}
+
+#wrap
+{
+  min-height: 100%;  
+}
+
+#container
+{
+    overflow:auto;
+    padding-bottom:80px; /* this needs to be bigger than footer height*/
+}
+
+.footer 
+{
+    position: relative;
+	margin-top: -80px; /* negative value of footer height */
+	height: 80px;
+	clear:both;
+    padding-top:20px;
+}
+
+.ui-widget {
+	font-size: 1.0em;
+}
+
+ul.horizontal-list li {
+	list-style: none;
+	display: inline;
+}
+
+#content {
+	height: 100%;
+}
+
+.main-menu {
+	text-align: center;
+}
+
+.pageHeader .closePage {
+	float: right;
+	margin: 6px 6px 0 0 
+}
+
+.pageTitle {
+	float: left;
+	font-size: 20px;
+	margin: 5px;
+}
+
+fieldset {
+	border: none;
+}
+
+td.left {
+	text-align: left !important;
+}
+td.right {
+	text-align: right !important;
+}
+
+.error {
+	color: #DF1414;
+	font-size: 1.0em;
+}
+
+/*submit buttons with display:none; do not get Enter-key submissions*/
+.hidden-submit {
+    border: 0 none;
+    height: 0;
+    width: 0;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+.jGrowl-header {
+	font-weight: bold;
+}
+
+.jGrowl-closer {
+	cursor: pointer;
+}
+
+.jGrowl-close {
+	float: right;
+	margin-right: 5px;
+	cursor: pointer;	
+}
+
+.jGrowl-notification {
+	max-width: 600px;
+	padding: 5px;
+	margin-bottom: 5px;
+}
+
+.bottom-left {
+	position: absolute;
+	left: 10px;
+	bottom: 10px;
+}
+
+.bottom-right{
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+}

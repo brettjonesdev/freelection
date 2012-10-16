@@ -1,0 +1,18 @@
+<table class="table table-striped table-hover">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Party</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#each this}}
+			<tr class="candidate" data-id="{{id}}" style="cursor: pointer;">
+				<td>{{name}}</td>
+				<td>{{party}}</td>
+				<td><button title="Remove this Candidate" class="close remove">&times;</button></td>
+			</tr>
+		{{/each}}
+	</tbody>
+</table>

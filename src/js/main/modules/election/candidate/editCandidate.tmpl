@@ -1,0 +1,33 @@
+<div class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
+		<h3 id="myModalLabel">Candidate</h3>
+	</div>
+	<div class="modal-body">
+		<form>
+			<legend>Enter Candidate Information</legend>
+			<div class="control-group">
+				<label>Name</label>
+				<input type="text" placeholder="Bob Dole" name="name" id="name" value="{{name}}"/>
+				<span class="help-inline" data-error="true"></span>
+			</div>
+			<div class="control-group">
+				<label>Party</label>
+				<input type="text" placeholder="Libertarian" name="party" id="party" value="{{party}}">
+				<span class="help-inline" data-error="true"></span>
+				<span class="help-block">What political party does this Candidate represent?</span>
+			</div>
+			
+			<div class="control-group">
+				<label>Details</label>
+				<input type="text" placeholder="Background, Experience, etc." name="description" id="description" value="{{description}}">
+				<span class="help-inline" data-error="true"></span>
+				<span class="help-block">Describe this Candidate (optional)</span>
+			</div>		
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+		<button class="btn btn-primary save">Save</button>
+	</div>
+</div>
