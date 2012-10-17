@@ -2,12 +2,14 @@
   "name": "freelection",
   "version": "0.0.1",
   "private": true,
+	"engines": {
+	"node": "0.8.12",
+	"npm": "1.1.49",
+    },
   "scripts": {
     "start": "node app"
   },
   "dependencies": {
-    "node": "0.6.20",
-	"npm": "1.1.49",
     "express": "3.0.0rc5"
   }
 }
