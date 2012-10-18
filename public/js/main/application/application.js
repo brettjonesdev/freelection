@@ -30,8 +30,9 @@ function($, ui, bootstrap, _, Backbone, util, Handlebars, Model) {
         		this.candidateView.remove();
 			}
         	var Application = this;
-			require( ['modules/election/candidate/editCandidate.view'], function( CandidateView) {
-				Application.candidateView = new CandidateView( { electionId : electionId } );
+			require( ['modules/election/candidate/editCandidate.view', 'models/candidate.model'], function( CandidateView, CandidateModel) {
+				var model = new CandidateModel({electionId: electionId });
+				Application.candidateView = new CandidateView( { model: model } );
 				Application.candidateView.render();
 				$( 'body' ).append( Application.candidateView.$el );	
 			});

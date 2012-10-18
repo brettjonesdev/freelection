@@ -41,7 +41,11 @@ function(Application,BaseView, Backbone, _, $, _template, Model, CandidateCollec
 		},
 		
 		reloadCandidates: function() {
-			this.candidates.fetch();
+			this.candidates.fetch({
+				data: {
+					id: this.model.get( 'id' )
+				}
+			});
 		},
 		
 		refreshCandidates: function() {
@@ -57,7 +61,7 @@ function(Application,BaseView, Backbone, _, $, _template, Model, CandidateCollec
 		},
 		
 		removeCandidate: function( event ) {
-			var id = $( event.target ).data( 'id' );
+			var id = $( event.target ).closest('.candidate' ).data( 'id' );
 			var candidateModel = this.candidates.get( id );
 			candidateModel.destroy();
 			this.refreshCandidates();
@@ -65,7 +69,7 @@ function(Application,BaseView, Backbone, _, $, _template, Model, CandidateCollec
 		},
 		
 		addCandidate: function() {
-			Application.trigger( 'add-candidate', {electionId: this.model.get( 'id' )} );
+			Application.trigger( 'add-candidate', this.model.get( 'id' ) );
 			return false;
 		}
 		

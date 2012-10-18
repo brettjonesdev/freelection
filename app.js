@@ -2,10 +2,14 @@ var express = require('express'),
 routes = require('./routes'), 
 election = require('./routes/election'), 
 candidates = require('./routes/candidates' ),
+vote = require('./routes/vote' ),
 http = require('http'), 
-path = require('path');
+path = require('path'),
+cradle = require('cradle');
 
 var app = express();
+
+exports.app = app;
 
 app.configure(function() {
 	app.set('port', process.env.PORT || 8080);
@@ -33,7 +37,10 @@ app.get('/election/:electionId', election.getElectionInfo);
 app.get('/candidates', candidates.getCandidates);
 app.get('/candidate/:candidateId', candidates.getCandidateInfo);
 app.put( '/candidate/:candidateId', candidates.updateCandidate );
+app.delete( '/candidate/:candidateId', candidates.deleteCandidate );
 app.post( '/candidate', candidates.addCandidate );
+
+app.post( '/castVote', vote.castVote );
 
 http.createServer(app).listen(app.get('port'), function() {
 	console.log("Express server listening on port " + app.get('port'));

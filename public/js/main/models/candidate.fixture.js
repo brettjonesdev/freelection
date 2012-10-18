@@ -61,4 +61,14 @@ define( ['jquery',
 	    	this.responseText = responseBody;	
 	    }
 	});
+	
+	$.mockjax({
+	    url: '/candidate/*',
+	    type: 'DELETE',
+	    responseTime: 150,
+	    response: function( request ) {
+	    	var responseBody = JSON.parse( request.data );
+	    	this.responseText = responseBody;	
+	    }
+	});
 });
