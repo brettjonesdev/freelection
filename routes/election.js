@@ -18,9 +18,8 @@ exports.getElectionInfo = function( req, res ) {
 exports.postElection = function(req, res){
 	console.log( req.app );
     console.log( "post election info" );
-    var electionId = req.body.id;
     var data = _.extend( { type: 'election' }, req.body );
-    db.save( electionId, data, function(err, doc ) {
+    db.save( data, function(err, doc ) {
     	if (err) {
             console.log( "erorr saving election", err );
             res.send(404, "Unable to save election" );
