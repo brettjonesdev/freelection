@@ -1,6 +1,6 @@
 var cradle = require('cradle');
 
-console.log( "Cloudant URL: " + process.env.CLOUDANT_URL;)
+console.log( "Cloudant URL: " + process.env.CLOUDANT_URL);
 var db = new(cradle.Connection)(process.env.CLOUDANT_URL).database('elections');
 
 db.exists(function (err, exists) {
