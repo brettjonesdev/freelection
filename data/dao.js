@@ -1,6 +1,6 @@
 var cradle = require('cradle');
 
-var db = new(cradle.Connection)('http://127.0.0.1', 5984).database('elections');
+var db = new(cradle.Connection)('https://cloudant.com/futon/database.html?app8480626.heroku', 5984).database('elections');
 
 db.exists(function (err, exists) {
     if (err) {
