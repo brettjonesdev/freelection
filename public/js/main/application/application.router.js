@@ -10,6 +10,7 @@ function(Backbone, $, ui, _, Application, PageManager, moduleDefinitions) {
 			'create' : 'create',
 			'vote' : 'selectElection',
 			'vote/:electionId' : 'vote',
+			'results/:electionId' : 'results',
 			'election/:electionId' : 'election',
 			'*path' : 'intro',
 		},
@@ -29,6 +30,12 @@ function(Backbone, $, ui, _, Application, PageManager, moduleDefinitions) {
 		vote: function( electionId ) {
 			require( ['modules/vote/vote.view'], function( VoteView ) {
 				var view = new VoteView( {electionId: electionId} );
+			});
+		},
+		
+		results: function( electionId ) {
+			require( ['modules/results/results.view'], function( View ) {
+				var view = new View( {electionId: electionId} );
 			});
 		},
 		

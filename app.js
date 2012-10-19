@@ -41,6 +41,7 @@ app.delete( '/candidate/:candidateId', candidates.deleteCandidate );
 app.post( '/candidate', candidates.addCandidate );
 
 app.post( '/castVote', vote.castVote );
+app.get( '/results/:id', vote.getResults );
 
 http.createServer(app).listen(app.get('port'), function() {
 	console.log("Express server listening on port " + app.get('port'));

@@ -1,5 +1,16 @@
 <h2>{{election.name}}</h2>
 
+	{{#if stationName }}
+		<h3>{{stationName}}</h3>
+	{{else}}
+		<form class="form-inline">
+	    	<label for="stationName">Polling Station:</label>
+	    	<input type="text" id="stationName" placeholder="i.e. Mrs. Jones' class"/>
+	    	<a class="btn btn-primary saveStationName">Save</a>
+	    </form>
+	{{/if}}
+
+
 <h4>Select a Candidate:</h4>
 
 <table class="table table-striped table-hover">

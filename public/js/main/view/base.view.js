@@ -23,7 +23,7 @@ define( ['backbone', 'underscore', 'jquery', 'handlebars', 'jqueryui', 'bootstra
 		}, 
 		
 		_cleanUIComponents: function() {
-			this.$( '.modal' ).modal( 'hide' );
+			//this.$( '.modal' ).modal( 'hide' );
 		},
 		
 		_handleUIElements: function() {

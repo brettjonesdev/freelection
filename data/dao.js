@@ -32,6 +32,25 @@ db.exists(function (err, exists) {
         }
       });
     
+    db.save('_design/vote', {
+        views: {
+          byId: {
+            map: function (doc) { 
+            	if (doc.type === 'vote') { 
+            		emit(doc._id, doc); 
+        		}
+        	}
+          },
+          byElection: {
+        	  map: function( doc ) {
+        		  if ( doc.type === 'vote' ) {
+        			  emit( doc.electionId, doc );
+        		  }
+        	  }
+          }
+        }
+      });
+    
   });
 
 exports.db = db;

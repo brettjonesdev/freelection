@@ -1,34 +1,44 @@
 define( ['Application', 'baseView', 'backbone', 'underscore', 'jquery', 'text!./vote.tmpl', 'models/election.model', 'models/candidate.collection', 'bootstrap'],
-function( Application, BaseView, Backbone, _, $, _template, Model, CandidateCollection) {
+function( Application, BaseView, Backbone, _, $, _template, ElectionModel, CandidateCollection) {
 	return BaseView.extend( {
 		el: "#main",
 		template: _template,
-		model: new Model(),
+		model: new Backbone.Model(),
+		election: new ElectionModel(),
 		events: {
-			"click a.select,tr.candidate" : "vote",
-			"click a.confirm" : "castVote"
+			"click tr.candidate" : "vote",
+			"click a.confirm" : "castVote",
+			"click a.saveStationName" : "setStationName"
 		},
 		candidates: new CandidateCollection(),
 		initialize: function(options) {
 			_.bindAll( this );
-			this.model.set( 'id', options.electionId );
+			this.election.set( 'id', options.electionId );
 			this.candidates.fetch( {
 				data: {
 					id: options.electionId
 				}
 			});
 			
+			this.election.on( 'change', this.render );
 			this.model.on( 'change', this.render );
 			this.candidates.on( 'reset add change', this.render);
-			this.model.fetch();
+			this.election.fetch();
+			Application.on( 'save-station-name', this.setStationName, this );
 		},
 		render: function() {
 			var template = Handlebars.compile( this.template );
-			this.$el.html( template( { election: this.model.toJSON(), candidates: this.candidates.toJSON() }));
-			this.$( '#confirm' ).modal( {show: false} );
+			this.$el.html( template( { stationName: this.model.get( 'stationName' ), election: this.election.toJSON(), candidates: this.candidates.toJSON() }));
+			this.$( '#confirm' ).modal( {show: false} );			
+		},
+		
+		forceStation: function() {
+			alert( "Please enter a name for this Polling Station!" );
 		},
 		
 		vote: function(e) {
+			e.preventDefault();
+			if ( !this.model.get( 'stationName' ) ) return this.forceStation();
 			var el = $(e.target).closest( ".candidate" );
 			this.candidateId = el.data( 'id' );
 			if ( this.candidateId ) {
@@ -48,8 +58,9 @@ function( Application, BaseView, Backbone, _, $, _template, Model, CandidateColl
 			$.ajax( {
 				url: "/castVote",
 				data: {
-					electionId: this.model.get( 'id' ),
-					id: this.candidateId
+					electionId: this.election.get( 'id' ),
+					candidateId: this.candidateId,
+					station: this.model.get( 'stationName' )
 				},
 				type: "POST",
 				success: this.voteCast	
@@ -59,6 +70,11 @@ function( Application, BaseView, Backbone, _, $, _template, Model, CandidateColl
 		voteCast: function() {
 			this.$( "#confirm" ).modal( "hide" );
 			alert( "Thank you for voting!" );
+		},
+		
+		setStationName: function() {
+			var stationName = this.$( 'input#stationName' ).val();
+			this.model.set('stationName', stationName );
 		}
 	});
 });
