@@ -16,8 +16,8 @@ exports.getElectionInfo = function( req, res ) {
 };
 
 exports.postElection = function(req, res){
-	console.log( req.app );
     console.log( "post election info" );
+    console.log( process.env.CLOUDANT_URL );
     var data = _.extend( { type: 'election' }, req.body );
     db.save( data, function(err, doc ) {
     	if (err) {
