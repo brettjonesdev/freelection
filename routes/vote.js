@@ -4,6 +4,7 @@ var _ = require( 'underscore' );
 
 exports.castVote = function(req,res) {
 	var candidateId = req.param("candidateId" );
+	var candidate = req.param("candidate" );
 	var electionId = req.param( "electionId" );
 	var station = req.param( "station" );
 	console.log( "castVote", req.body );
@@ -13,6 +14,7 @@ exports.castVote = function(req,res) {
 			type: 'vote',
 			electionId: electionId,
 			candidateId: candidateId,
+			candidate: candidate,
 			station: station
 		}, function( err, doc ) {
 			console.log( err, doc );
@@ -28,8 +30,8 @@ exports.castVote = function(req,res) {
 };	
 	
 exports.getResults = function(req,res) {
-	var electionId = req.param( "_id" );
-	console.log( "get Results for election " + electionId );
+	var electionId = req.param( "id" );
+	console.log( "get Results for Election: " + electionId );
 	
 	var allVotes;
 	var allCandidates;
@@ -39,9 +41,9 @@ exports.getResults = function(req,res) {
 			console.log(err);
 			res.send( 500, err );
 		} else {
-			console.log( "All Candidates", doc );
+			allCandidates = _.pluck( doc, "value" );
 			if ( allVotes ) {
-				generateResults( allVotes, candidates );
+				generateResults( allVotes, allCandidates );
 			}
 		}
 	});
@@ -49,11 +51,13 @@ exports.getResults = function(req,res) {
 	db.view( 'vote/byElection' , { key: electionId }, function(err, doc ) {
 		if ( err ) {
 			console.log( err );
-			res.send(404, err );
+			res.send(500, err );
 		} else {
 			allVotes = _.pluck(doc, "value");
 			if ( allCandidates ) {
-				generateResults( allVotes, allCandidates );
+				var results = generateResults( allVotes, allCandidates );
+				console.log( "Results", results );
+				res.send(results);
 			}
 		}
 	
@@ -63,5 +67,43 @@ exports.getResults = function(req,res) {
 function generateResults( allVotes, candidates ) {
 	var stations = _.pluck(allVotes, "station");
 	stations = _.uniq(stations);
+	
+	console.log( "Candidates", candidates );
+	var votesByStation = initializeVotesByStationObject( stations, candidates );
+	var totals = initializeTotalsObject(candidates);
+	console.log( "votesByStation", votesByStation );
+	console.log( "totals", totals );
+	
+	_.each( allVotes, function(vote) {
+		if ( !vote.station || !vote.candidate ) {
+			console.log( "Invalid vote", vote );
+		} else {
+			votesByStation[vote.station][vote.candidate]++;
+			totals[vote.candidate]++;			
+		}
+	});
+	
+	return {
+		totals: totals,
+		byStation: votesByStation
+	};
 }
 
+function initializeTotalsObject(candidates) {
+	var totals = {};
+	_.each( candidates, function( candidate ) {
+		totals[candidate.name] = 0;
+	});
+	return totals;
+}
+
+function initializeVotesByStationObject(stations,candidates) {
+	var votesByStation = {};
+	_.each( stations, function(station) {
+		votesByStation[station] = {};
+		_.each( candidates, function( candidate ) {
+			votesByStation[station][candidate.name] = 0;
+		});
+	});
+	return votesByStation;
+}

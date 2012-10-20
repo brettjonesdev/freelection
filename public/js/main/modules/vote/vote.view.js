@@ -41,6 +41,7 @@ function( Application, BaseView, Backbone, _, $, _template, ElectionModel, Candi
 			if ( !this.model.get( 'stationName' ) ) return this.forceStation();
 			var el = $(e.target).closest( ".candidate" );
 			this.candidateId = el.data( 'id' );
+			this.candidateName = el.data('name');
 			if ( this.candidateId ) {
 				this.showConfirmDialog();
 			}
@@ -60,6 +61,7 @@ function( Application, BaseView, Backbone, _, $, _template, ElectionModel, Candi
 				data: {
 					electionId: this.election.id,
 					candidateId: this.candidateId,
+					candidate: this.candidateName,
 					station: this.model.get( 'stationName' )
 				},
 				type: "POST",
