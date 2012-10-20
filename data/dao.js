@@ -1,15 +1,18 @@
 var cradle = require('cradle');
 
-console.log( "Cloudant URL: " + process.env.CLOUDANT_URL);
-var db = new(cradle.Connection)(process.env.CLOUDANT_URL, 80).database('elections');
+if ( process.env.CLOUDANT_URL ) {
+	var db = new(cradle.Connection)(process.env.CLOUDANT_URL, 80).database('elections');
+} else {
+	db = new(cradle.Connection)('http://127.0.0.1', 5984).database('elections');
+}
 
 db.exists(function (err, exists) {
     if (err) {
       console.log('error', err);
     } else if (exists) {
-      console.log('elections exists');
+      console.log('db elections exists');
     } else {
-      console.log('database does not exist. Creating...');
+      console.log('database elections does not exist. Creating...');
       db.create();
       console.log('database created');
     }
@@ -35,13 +38,6 @@ db.exists(function (err, exists) {
     
     db.save('_design/vote', {
         views: {
-          byId: {
-            map: function (doc) { 
-            	if (doc.type === 'vote') { 
-            		emit(doc._id, doc); 
-        		}
-        	}
-          },
           byElection: {
         	  map: function( doc ) {
         		  if ( doc.type === 'vote' ) {

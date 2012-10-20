@@ -44,7 +44,7 @@ function($, ui, bootstrap, _, Backbone, util, Handlebars, Model) {
 			}
 			var candidateId = options.id;
 			require( ['modules/election/candidate/editCandidate.view', 'models/candidate.model'], function( CandidateView, CandidateModel ) {
-				var model = new CandidateModel( { id: candidateId });
+				var model = new CandidateModel( { _id: candidateId });
 				model.fetch( { success: function() {
 					Application.candidateView = new CandidateView( {model:model, electionId: options.electionId} );
 					Application.candidateView.render();

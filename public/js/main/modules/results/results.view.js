@@ -13,8 +13,8 @@ function(Application,BaseView, Backbone, _, $, _template, Model, ElectionModel, 
 		template: _template,		
 		initialize: function() {
 			_.bindAll( this );
-			this.model = new Model( { id: this.options.electionId } );
-			this.election = new ElectionModel( { id: this.options.electionId } );
+			this.model = new Model( { _id: this.options.electionId } );
+			this.election = new ElectionModel( { _id: this.options.electionId } );
 			this.model.on( "change", this.render );
 			this.election.on( "change", this.render );
 			this.model.fetch();

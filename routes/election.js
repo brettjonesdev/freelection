@@ -7,7 +7,8 @@ exports.getElectionInfo = function( req, res ) {
 	console.log( "getElectionInfo: " + electionId );
 	db.get( electionId, function( err, doc ) {
 		if ( err) {
-			res.send(404, "Unable to retrieve election data");
+			console.log( err );
+			res.send(500, "Unable to retrieve election data");
 		} else {
 			console.log( doc );
 			res.json( doc );
@@ -17,15 +18,22 @@ exports.getElectionInfo = function( req, res ) {
 
 exports.postElection = function(req, res){
     console.log( "post election info" );
-    console.log( process.env.CLOUDANT_URL );
     var data = _.extend( { type: 'election' }, req.body );
     db.save( data, function(err, doc ) {
     	if (err) {
-            console.log( "erorr saving election", err );
-            res.send(404, "Unable to save election" );
+            console.log( "error saving election", err );
+            res.send(500, "Unable to save election" );
         } else {
             console.log( "Saved election", doc );
-            res.json( doc );
+            
+            db.get( doc.id, function( err2, doc2 ) {
+            	if ( err ) {
+            		console.log( err2 );
+            	} else {
+            		console.log( "New election info: ", doc2 );
+                    res.json( doc2 );
+            	}
+            });
         }
     });
 };

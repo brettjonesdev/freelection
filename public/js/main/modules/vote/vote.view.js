@@ -13,7 +13,7 @@ function( Application, BaseView, Backbone, _, $, _template, ElectionModel, Candi
 		candidates: new CandidateCollection(),
 		initialize: function(options) {
 			_.bindAll( this );
-			this.election.set( 'id', options.electionId );
+			this.election.set( '_id', options.electionId );
 			this.candidates.fetch( {
 				data: {
 					id: options.electionId
@@ -58,7 +58,7 @@ function( Application, BaseView, Backbone, _, $, _template, ElectionModel, Candi
 			$.ajax( {
 				url: "/castVote",
 				data: {
-					electionId: this.election.get( 'id' ),
+					electionId: this.election.id,
 					candidateId: this.candidateId,
 					station: this.model.get( 'stationName' )
 				},

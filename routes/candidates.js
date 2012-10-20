@@ -8,10 +8,11 @@ exports.getCandidates = function(req, res) {
 	db.view( 'candidate/byElectionId' , { key: electionId }, function(err, doc ) {
 		if ( err ) {
 			console.log(err);
-			res.send( 404, err );
+			res.send( 500, err );
 		} else {
-			console.log( "Results:", doc );
-			res.json( doc );
+			var candidates = _.pluck(doc, "value");
+			console.log( "Candidates:", candidates );
+			res.json( candidates );
 		}
 	});
 };
@@ -33,7 +34,7 @@ exports.addCandidate = function(req, res) {
 	db.save( data, function(err,doc) {
 		if ( err ) {
 			console.log(err);
-			res.send(404, err);
+			res.send(500);
 		} else {
 			console.log(doc);
 			res.json(doc);
@@ -48,14 +49,14 @@ exports.deleteCandidate = function(req, res) {
 	db.get( candidateId, function(err, doc ) {
 		if ( err ) {
 			console.log(err);
-			res.send(404,err);
+			res.send(500,err);
 		} else {
 			console.log(doc);
 			var revision = doc._rev;
 			db.remove( candidateId, revision, function(err,doc) {
 				if ( err ) {
 					console.log(err);
-					res.send(404, err);
+					res.send(500);
 				} else {
 					console.log(doc);
 					res.json(doc);

@@ -41,7 +41,7 @@ function(Backbone, $, ui, _, Application, PageManager, moduleDefinitions) {
 		
 		election: function(electionId) {
 			require( ['modules/election/election.view', 'models/election.model'], function( ElectionView, ElectionModel ) {
-				var model = new ElectionModel( { id: electionId });
+				var model = new ElectionModel( { _id: electionId });
 				model.fetch( { success: function() {
 					var view = new ElectionView( {model:model} );
 					view.render();

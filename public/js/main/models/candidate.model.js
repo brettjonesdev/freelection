@@ -1,6 +1,7 @@
 define( ['backbone', 'underscore', 'util', 'validation'], function( Backbone, _, util) {
 	return Backbone.Model.extend( {
 		urlRoot: "/candidate",
+		idAttribute: '_id',
 		defaults: {
 			
 		},

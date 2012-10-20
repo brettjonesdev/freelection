@@ -25,7 +25,7 @@ function(Application,BaseView, Backbone, _, $, _template, Model, CandidateCollec
 			this.candidates = new CandidateCollection();
 			this.candidates.fetch({
 				data: {
-					id: this.model.get( 'id' )
+					id: this.model.id
 				}
 			});
 			this.candidates.on( 'change add remove reset', this.refreshCandidates, this);
@@ -43,7 +43,7 @@ function(Application,BaseView, Backbone, _, $, _template, Model, CandidateCollec
 		reloadCandidates: function() {
 			this.candidates.fetch({
 				data: {
-					id: this.model.get( 'id' )
+					id: this.model.id
 				}
 			});
 		},
@@ -57,7 +57,7 @@ function(Application,BaseView, Backbone, _, $, _template, Model, CandidateCollec
 			event.preventDefault();
 			var id = $( event.currentTarget ).data( 'id' );
 			
-			Application.trigger( 'edit-candidate', { id: id, electionId: this.model.get( 'id' ) });
+			Application.trigger( 'edit-candidate', { id: id, electionId: this.model.id });
 		},
 		
 		removeCandidate: function( event ) {
@@ -69,7 +69,7 @@ function(Application,BaseView, Backbone, _, $, _template, Model, CandidateCollec
 		},
 		
 		addCandidate: function() {
-			Application.trigger( 'add-candidate', this.model.get( 'id' ) );
+			Application.trigger( 'add-candidate', this.model.id );
 			return false;
 		}
 		

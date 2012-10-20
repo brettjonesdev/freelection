@@ -17,7 +17,7 @@ exports.castVote = function(req,res) {
 		}, function( err, doc ) {
 			console.log( err, doc );
 			if ( err ) {
-				res.send(404, err );
+				res.send(500, err );
 			} else {
 				res.send( {success: true} );
 			}
@@ -28,31 +28,40 @@ exports.castVote = function(req,res) {
 };	
 	
 exports.getResults = function(req,res) {
-	var electionId = req.param( "id" );
+	var electionId = req.param( "_id" );
 	console.log( "get Results for election " + electionId );
+	
+	var allVotes;
+	var allCandidates;
+	
+	db.view( 'candidate/byElectionId' , { key: electionId }, function(err, doc ) {
+		if ( err ) {
+			console.log(err);
+			res.send( 500, err );
+		} else {
+			console.log( "All Candidates", doc );
+			if ( allVotes ) {
+				generateResults( allVotes, candidates );
+			}
+		}
+	});
+	
 	db.view( 'vote/byElection' , { key: electionId }, function(err, doc ) {
 		if ( err ) {
 			console.log( err );
 			res.send(404, err );
 		} else {
-			
-			var allVotes = _.pluck(doc, "value");
-			
-			var stations = _.pluck(allVotes, "station");
-			stations = _.uniq(stations);
-			
-			var candidates = _.pluck(allVotes, "candidateId");
-			candidates = _.uniq(candidates);
-			
-			var results = {};
-			for ( var i = 0; i < stations.length; i++ ) {
-				results[stations[i]] = {};
-				for ( var j = 0; j < candidates.length; i++ ) {
-					results[stations[i]][candidates[j]] = 0;
-				}
+			allVotes = _.pluck(doc, "value");
+			if ( allCandidates ) {
+				generateResults( allVotes, allCandidates );
 			}
-			console.log( results );
 		}
 	
 	});
 };
+
+function generateResults( allVotes, candidates ) {
+	var stations = _.pluck(allVotes, "station");
+	stations = _.uniq(stations);
+}
+
