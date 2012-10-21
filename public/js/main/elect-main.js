@@ -20,7 +20,8 @@
 			'modelbinder' : '../libs/modelbinder/modelbinder-loader',
 			'Application' : 'application/application',
 			'formView' : 'view/form.view',
-			'baseView' : 'view/base.view'
+			'baseView' : 'view/base.view',
+			'charts' : '../libs/googlecharts/charts-loader'
 		},
 	    shim: {
 	    	'backbone': {
