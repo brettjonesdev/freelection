@@ -80,7 +80,6 @@ function(Application,BaseView, Backbone, _, $, _template, Model, ElectionModel, 
 			this.drawBreakdown( this.model.get( 'byStation' ) );
 		},
 		
-
 		drawTotals : function(totals) {
 			var data = new google.visualization.DataTable();
 			data.addColumn('string', 'Candidate');
@@ -93,8 +92,7 @@ function(Application,BaseView, Backbone, _, $, _template, Model, ElectionModel, 
 			}
 			data.addRows(rows);
 
-			var table = new google.visualization.Table(document
-					.getElementById('totalsChart'));
+			var table = new google.visualization.Table(document.getElementById('totalsChart'));
 			table.draw(data, {
 				sortColumn : 1,
 				sortAscending : false

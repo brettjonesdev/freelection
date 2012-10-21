@@ -2,6 +2,8 @@ var dao = require( '../data/dao' );
 var db = dao.db;
 var _ = require( 'underscore' );
 
+var email = require( '../utility/email' );
+
 exports.getElectionInfo = function( req, res ) {
 	var electionId = req.param('electionId');
 	console.log( "getElectionInfo: " + electionId );
@@ -25,12 +27,14 @@ exports.postElection = function(req, res){
             res.send(500, "Unable to save election" );
         } else {
             console.log( "Saved election", doc );
-            
             db.get( doc.id, function( err2, doc2 ) {
             	if ( err ) {
             		console.log( err2 );
             	} else {
             		console.log( "New election info: ", doc2 );
+            		email.sendEmail( data.email, 
+            						"Your Election is ready", 
+            						"Thank you for using Freelection!  Your election " + doc2.name + "   is available <a href='http://freelection.herokuapp.com/#vote/" + doc2._id +"'>here</a>." );
                     res.json( doc2 );
             	}
             });

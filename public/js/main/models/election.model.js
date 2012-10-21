@@ -11,7 +11,7 @@ define( ['backbone', 'underscore', 'util', 'validation'], function( Backbone, _,
 		validation: {
 	    	name: {
 		    	 required: true,
-		    	 msg: 'Please enter a unique name for this Election'
+		    	 msg: 'Please name this Election'
 	    	},
 	    	email: {
 		    	required: true,
