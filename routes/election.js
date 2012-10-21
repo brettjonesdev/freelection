@@ -1,6 +1,18 @@
 var dao = require( '../data/dao' );
 var db = dao.db;
 var _ = require( 'underscore' );
+var Handlebars = require( "handlebars");
+var fs = require('fs');
+
+var newElectionTemplate = "";
+fs.readFile('./views/newElectionEmail.tmpl', 'utf8', function (err,data) {
+  if (err) {
+     console.log(err);
+  } else {
+	  newElectionTemplate = data;
+	  console.log( "electionTemplate:", data );
+  }
+});
 
 var email = require( '../utility/email' );
 
@@ -26,15 +38,15 @@ exports.postElection = function(req, res){
             console.log( "error saving election", err );
             res.send(500, "Unable to save election" );
         } else {
-            console.log( "Saved election", doc );
             db.get( doc.id, function( err2, doc2 ) {
             	if ( err ) {
             		console.log( err2 );
             	} else {
             		console.log( "New election info: ", doc2 );
-            		email.sendEmail( data.email, 
-            						"Your Election is ready", 
-            						"Thank you for using Freelection!  Your election " + doc2.name + "   is available <a href='http://freelection.herokuapp.com/#vote/" + doc2._id +"'>here</a>." );
+            		var template = Handlebars.compile(newElectionTemplate);
+            		var body = template(doc2);
+            		console.log( body );
+            		email.sendEmail( data.email, "Your Election is ready", body );
                     res.json( doc2 );
             	}
             });
