@@ -17,6 +17,15 @@ function($, ui, bootstrap, _, Backbone, util, Handlebars, Model) {
         	
         	_.extend( this, Backbone.Events );
     		
+        	_.extend( Backbone.Model.prototype, {
+		    	initialize: function() {
+					this.on( 'error', this.error );
+				},
+				
+				error: function(model, response) {
+					$.jGrowl(response.responseText,{theme: 'ui-state-error'});
+				},
+    		});
     		this.wireEvents();
         },
         

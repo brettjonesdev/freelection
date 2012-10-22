@@ -1,4 +1,4 @@
-define( ['backbone', 'underscore', 'util', 'validation'], function( Backbone, _, util) {
+define( ['backbone', 'underscore', 'jquery', 'util', 'validation', 'jgrowl'], function( Backbone, _, $, util) {
 	return Backbone.Model.extend( {
 		urlRoot: "/election",
 		idAttribute: '_id',
