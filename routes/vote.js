@@ -56,7 +56,6 @@ exports.getResults = function(req,res) {
 			allVotes = _.pluck(doc, "value");
 			if ( allCandidates ) {
 				var results = generateResults( allVotes, allCandidates );
-				console.log( "Results", results );
 				res.send(results);
 			}
 		}
@@ -71,8 +70,6 @@ function generateResults( allVotes, candidates ) {
 	console.log( "Candidates", candidates );
 	var votesByStation = initializeVotesByStationObject( stations, candidates );
 	var totals = initializeTotalsObject(candidates);
-	console.log( "votesByStation", votesByStation );
-	console.log( "totals", totals );
 	
 	_.each( allVotes, function(vote) {
 		if ( !vote.station || !vote.candidate ) {
