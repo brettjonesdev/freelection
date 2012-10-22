@@ -121,9 +121,14 @@ function(Application,BaseView, Backbone, _, $, _template, Model, ElectionModel, 
 				rows.push(row);
 			}
 			data.addRows(rows);
-			var table = new google.visualization.BarChart(document.getElementById( 'breakdownChart' ));
-			table.draw(data, {
-				sortColumn : 0
+			
+			var height = (50 + 75 * rows.length);
+			var chart = new google.visualization.BarChart(document.getElementById( 'breakdownChart' ));
+			chart.draw(data, {
+				height: height,
+				chartArea: {
+					top: 10
+				}
 			});
 		}
 	});
