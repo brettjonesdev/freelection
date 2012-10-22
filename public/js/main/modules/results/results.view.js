@@ -122,7 +122,7 @@ function(Application,BaseView, Backbone, _, $, _template, Model, ElectionModel, 
 			}
 			data.addRows(rows);
 			
-			var height = (50 + 75 * rows.length);
+			var height = (50 + 60 * rows.length + 5 * candidates.length);
 			var chart = new google.visualization.BarChart(document.getElementById( 'breakdownChart' ));
 			chart.draw(data, {
 				height: height,
