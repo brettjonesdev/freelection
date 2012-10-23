@@ -24,7 +24,7 @@ function($, ui, bootstrap, _, Backbone, util, Handlebars, Model) {
 				
 				error: function(model, response) {
 					$.jGrowl(response.responseText,{theme: 'ui-state-error'});
-				},
+				}
     		});
     		this.wireEvents();
         },

@@ -56,6 +56,8 @@ function( Application, BaseView, Backbone, _, $, _template, ElectionModel, Candi
 		},
 		
 		castVote: function() {
+			this.$( '.confirm' ).unbind( 'click' );
+			console.log( 'castVote' );
 			$.ajax( {
 				url: "/castVote",
 				data: {
@@ -71,7 +73,9 @@ function( Application, BaseView, Backbone, _, $, _template, ElectionModel, Candi
 		
 		voteCast: function() {
 			this.$( "#confirm" ).modal( "hide" );
-			alert( "Thank you for voting!" );
+			$.jGrowl( "Thank you for voting!", {
+				theme: 'success'
+			});
 		},
 		
 		setStationName: function() {
